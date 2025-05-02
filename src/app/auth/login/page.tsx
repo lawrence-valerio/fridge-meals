@@ -18,7 +18,7 @@ export default function LoginPage() {
   };
 
   if (isAuthenticated) {
-    return router.push("/recipe");
+    return router.push("/app/homepage");
   }
 
   return (
