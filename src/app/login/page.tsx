@@ -6,7 +6,7 @@ import LoginForm from "./components/LoginForm";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const router = useRouter();
   const handleLogin = async (username: string, password: string) => {
     try {
@@ -15,6 +15,10 @@ export default function LoginPage() {
       console.error("Login failed:", error);
     }
   };
+
+  if (isAuthenticated) {
+    return router.push("/recipe");
+  }
 
   return (
     <div>
