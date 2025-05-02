@@ -24,7 +24,9 @@ export const AuthProvider: React.FC<{
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
-  const login = async (email: string) => {
+  const login = async (email: string, password: string) => {
+    // For demo purposes, we're just using the email
+    // In a real app, you would validate the password here
     setUser({
       id: "1",
       email,

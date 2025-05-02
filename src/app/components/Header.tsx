@@ -14,7 +14,7 @@ export const Header = () => {
           <h1 className="text-2xl md:text-3xl font-bold">{APP_NAME}</h1>
         </div>
         <div className="flex items-center gap-4">
-          <span>Hello, {user}</span>
+          <span>Hello, {user?.name || "Guest"}</span>
           <button
             onClick={logout}
             className="text-white opacity-90 hover:opacity-100 flex items-center gap-2"
