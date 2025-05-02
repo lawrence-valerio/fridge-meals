@@ -1,3 +1,5 @@
+import { Header } from "@/app/components/Header";
+
 export default function HomepageLayout({
   children,
 }: {
@@ -5,7 +7,10 @@ export default function HomepageLayout({
 }) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        <Header />
+        <main>{children}</main>
+      </body>
     </html>
   );
 }
