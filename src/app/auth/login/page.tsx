@@ -2,6 +2,7 @@
 
 import { UtensilsIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import { useAuth } from "../../contexts/AuthContext";
 import { APP_NAME } from "@/constants/app";
@@ -9,6 +10,13 @@ import { APP_NAME } from "@/constants/app";
 export default function LoginPage() {
   const { login, isAuthenticated } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/app/recipes");
+    }
+  }, [isAuthenticated, router]);
+
   const handleLogin = async (username: string, password: string) => {
     try {
       await login(username, password);
@@ -16,10 +24,6 @@ export default function LoginPage() {
       console.error("Login failed:", error);
     }
   };
-
-  if (isAuthenticated) {
-    return router.push("/app/homepage");
-  }
 
   return (
     <div>

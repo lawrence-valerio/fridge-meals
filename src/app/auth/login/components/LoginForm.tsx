@@ -46,10 +46,8 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
         type="submit"
         className="w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white py-2 px-4 rounded-lg font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center gap-2"
       >
-        <>
-          Get Started
-          <ChevronRightIcon size={18} />
-        </>
+        Get Started
+        <ChevronRightIcon size={18} />
       </button>
     </form>
   );

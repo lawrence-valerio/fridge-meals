@@ -1,4 +1,5 @@
 import { Header } from "@/app/components/Header";
+import { Navigation } from "@/app/components/Navigation";
 
 export default function HomepageLayout({
   children,
@@ -6,9 +7,10 @@ export default function HomepageLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <main>
       <Header />
-      <main>{children}</main>
-    </>
+      <Navigation />
+      {children}
+    </main>
   );
 }
