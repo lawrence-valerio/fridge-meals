@@ -13,7 +13,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/app/recipes");
+      router.push("/home/recipes");
     }
   }, [isAuthenticated, router]);
 
