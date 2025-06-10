@@ -60,6 +60,12 @@ export const IngredientInput = () => {
     }
   };
 
+  const handleSuggestions = (suggestions: string) => {
+    setUserIngredients([...userIngredients, suggestions]);
+    setInputValue("");
+    setSuggestions([]);
+  };
+
   const removeIngredient = (ingredient: string) => {
     setUserIngredients(userIngredients.filter((i) => i !== ingredient));
   };
@@ -105,6 +111,20 @@ export const IngredientInput = () => {
             </button>
           </div>
         </div>
+
+        {suggestions.length > 0 && (
+          <div className="absolute z-10 w-full bg-white border border-gray-200 rounded-b-lg shadow-lg mt-1 max-h-60 overflow-y-auto">
+            {suggestions.map((suggestion) => (
+              <div
+                key={suggestion}
+                onClick={() => handleSuggestions(suggestion)}
+                className="p-2 hover:bg-gray-100 cursor-pointer"
+              >
+                {suggestion}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
