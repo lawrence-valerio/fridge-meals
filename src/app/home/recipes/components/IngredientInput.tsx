@@ -3,6 +3,32 @@
 import { useState } from "react";
 import { PlusCircleIcon, XIcon } from "lucide-react";
 
+/* Placeholder until i setup API */
+const commonIngredients = [
+  "chicken",
+  "beef",
+  "pasta",
+  "rice",
+  "eggs",
+  "cheese",
+  "tomatoes",
+  "onions",
+  "garlic",
+  "potatoes",
+  "broccoli",
+  "carrots",
+  "bell peppers",
+  "spinach",
+  "milk",
+  "butter",
+  "olive oil",
+  "salt",
+  "pepper",
+  "flour",
+  "sugar",
+  "bread",
+];
+
 export const IngredientInput = () => {
   const [inputValue, setInputValue] = useState("");
   const [userIngredients, setUserIngredients] = useState<string[]>([]);
@@ -18,6 +44,22 @@ export const IngredientInput = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+
+    if (value.length > 0) {
+      const filtered = commonIngredients.filter(
+        (item) =>
+          item.toLowerCase().includes(value.toLowerCase()) &&
+          !userIngredients.includes(item.toLowerCase())
+      );
+      setSuggestions(filtered);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
   return (
     <section>
       <div className="bg-white rounded-lg shadow-md p-6">
@@ -27,7 +69,10 @@ export const IngredientInput = () => {
 
         <div className="flex flex-wrap gap-2 mb-4">
           {userIngredients.map((ingredient) => (
-            <div key={ingredient}>
+            <div
+              key={ingredient}
+              className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full flex items-center"
+            >
               <span>{ingredient}</span>
               <button className="ml-2 text-indigo-600 hover:text-indigo-800">
                 <XIcon size={16} />
@@ -41,7 +86,7 @@ export const IngredientInput = () => {
             <input
               type="text"
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Type an ingredient (e.g. chicken, eggs, tomatoes)"
               className="flex-1 p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
