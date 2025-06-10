@@ -91,7 +91,7 @@ export const IngredientInput = () => {
           {userIngredients.map((ingredient) => (
             <div
               key={ingredient}
-              className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full flex items-center"
+              className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full flex items-center hover:bg-indigo-200 transition-colors duration-150"
             >
               <span>{ingredient}</span>
               <button
