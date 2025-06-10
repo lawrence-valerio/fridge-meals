@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PlusCircleIcon, XIcon } from "lucide-react";
 
 /* Placeholder until i setup API */
@@ -31,8 +31,18 @@ const commonIngredients = [
 
 export const IngredientInput = () => {
   const [inputValue, setInputValue] = useState("");
-  const [userIngredients, setUserIngredients] = useState<string[]>([]);
+  const [userIngredients, setUserIngredients] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("userIngredients");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
   const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  useEffect(() => {
+    localStorage.setItem("userIngredients", JSON.stringify(userIngredients));
+  }, [userIngredients]);
 
   const handleAddIngredient = () => {
     const trimmed = inputValue.trim().toLowerCase();
