@@ -5,6 +5,18 @@ import { PlusCircleIcon } from "lucide-react";
 
 export const IngredientInput = () => {
   const [inputValue, setInputValue] = useState("");
+  const [userIngredients, setUserIngredients] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+
+  const handleAddIngredient = () => {
+    const trimmed = inputValue.trim().toLowerCase();
+
+    if (trimmed && !userIngredients.includes(trimmed)) {
+      setUserIngredients([...userIngredients, trimmed]);
+      setInputValue("");
+      setSuggestions([]);
+    }
+  };
 
   return (
     <section>
@@ -20,7 +32,10 @@ export const IngredientInput = () => {
               placeholder="Type an ingredient (e.g. chicken, eggs, tomatoes)"
               className="flex-1 p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-            <button className="bg-indigo-600 text-white p-3 rounded-r-lg hover:bg-indigo-700 flex items-center">
+            <button
+              onClick={handleAddIngredient}
+              className="bg-indigo-600 text-white p-3 rounded-r-lg hover:bg-indigo-700 flex items-center"
+            >
               <PlusCircleIcon size={20} className="mr-1" /> Add
             </button>
           </div>
