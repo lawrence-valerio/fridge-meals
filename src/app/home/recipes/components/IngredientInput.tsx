@@ -60,6 +60,10 @@ export const IngredientInput = () => {
     }
   };
 
+  const removeIngredient = (ingredient: string) => {
+    setUserIngredients(userIngredients.filter((i) => i !== ingredient));
+  };
+
   return (
     <section>
       <div className="bg-white rounded-lg shadow-md p-6">
@@ -74,7 +78,10 @@ export const IngredientInput = () => {
               className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full flex items-center"
             >
               <span>{ingredient}</span>
-              <button className="ml-2 text-indigo-600 hover:text-indigo-800">
+              <button
+                onClick={() => removeIngredient(ingredient)}
+                className="ml-2 text-indigo-600 hover:text-indigo-800 cursor-pointer"
+              >
                 <XIcon size={16} />
               </button>
             </div>
