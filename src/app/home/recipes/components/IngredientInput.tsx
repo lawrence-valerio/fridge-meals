@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { PlusCircleIcon, XIcon } from "lucide-react";
 
-/* Placeholder until i setup API */
-const commonIngredients = [
+const MOCK_INGREDIENTS = [
   "chicken",
   "beef",
   "pasta",
@@ -28,6 +27,8 @@ const commonIngredients = [
   "sugar",
   "bread",
 ];
+
+const USE_MOCK_DATA = true;
 
 export const IngredientInput = () => {
   const [inputValue, setInputValue] = useState("");
@@ -54,17 +55,36 @@ export const IngredientInput = () => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setInputValue(value);
 
-    if (value.length > 0) {
-      const filtered = commonIngredients.filter(
-        (item) =>
-          item.toLowerCase().includes(value.toLowerCase()) &&
-          !userIngredients.includes(item.toLowerCase())
-      );
-      setSuggestions(filtered);
+    if (value.length > 2) {
+      if (USE_MOCK_DATA) {
+        const filteredSuggestions = MOCK_INGREDIENTS.filter((item) =>
+          item.toLowerCase().includes(value.toLowerCase())
+        ).filter((name) => !userIngredients.includes(name.toLowerCase()));
+        setSuggestions(filteredSuggestions);
+      } else {
+        try {
+          const response = await fetch(
+            `https://api.spoonacular.com/food/ingredients/autocomplete?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY}&query=${value}&number=5`
+          );
+          const data = await response.json();
+
+          if (Array.isArray(data) && data.length > 0) {
+            const filteredSuggestions = data
+              .map((item: { name: string }) => item.name.toLowerCase())
+              .filter((name: string) => !userIngredients.includes(name));
+            setSuggestions(filteredSuggestions);
+          } else {
+            setSuggestions([]);
+          }
+        } catch (error) {
+          console.error("Error fetching suggestions:", error);
+          setSuggestions([]);
+        }
+      }
     } else {
       setSuggestions([]);
     }
