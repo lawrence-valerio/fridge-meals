@@ -1,4 +1,4 @@
-import { CheckCircleIcon } from "lucide-react";
+import { CheckCircleIcon, XCircleIcon } from "lucide-react";
 
 export const MealCard = () => {
   return (
@@ -21,16 +21,26 @@ export const MealCard = () => {
         </p>
         <div>
           <h4 className="font-medium text-gray-700 mb-2">Ingredients:</h4>
-          <div className="py-1">
-            <div className="mb-2">
+          <div className="space-y-2">
+            <div>
               <p className="text-sm text-green-700 mb-1 flex items-center">
                 <CheckCircleIcon size={16} className="mr-1" /> You have:
               </p>
+              <div className="flex flex-wrap gap-1">
+                <span className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full">
+                  pasta
+                </span>
+              </div>
             </div>
             <div>
-              <span className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full">
-                pasta
-              </span>
+              <p className="text-sm text-red-700 mb-1 flex items-center">
+                <XCircleIcon size={16} className="mr-1" /> You need:
+              </p>
+              <div className="flex flex-wrap gap-1">
+                <span className="text-xs bg-red-200 text-red-800 px-2 py-1 rounded-full">
+                  eggs
+                </span>
+              </div>
             </div>
           </div>
         </div>
