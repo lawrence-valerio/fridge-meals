@@ -1,3 +1,5 @@
+import { CheckCircleIcon } from "lucide-react";
+
 export const MealCard = () => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
@@ -17,7 +19,21 @@ export const MealCard = () => {
         <p className="text-gray-600 mb-4">
           A classic Italian pasta dish with creamy egg sauce and bacon.
         </p>
-        <div></div>
+        <div>
+          <h4 className="font-medium text-gray-700 mb-2">Ingredients:</h4>
+          <div className="py-1">
+            <div className="mb-2">
+              <p className="text-sm text-green-700 mb-1 flex items-center">
+                <CheckCircleIcon size={16} className="mr-1" /> You have:
+              </p>
+            </div>
+            <div>
+              <span className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full">
+                pasta
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
