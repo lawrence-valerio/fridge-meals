@@ -4,19 +4,40 @@ import { MealCard } from "./MealCard";
 import { useEffect, useState } from "react";
 import type { MealSuggestionType } from "./MealSuggestion.types";
 
+// Helper functions for localStorage
+const LOCAL_MEALS_KEY = "mealSuggestions";
+
 export const MealSuggestion = ({
   userIngredients,
 }: {
   userIngredients: string[];
 }) => {
   const [mealSuggestions, setMealSuggestions] = useState<MealSuggestionType[]>(
-    []
+    () => {
+      if (typeof window !== "undefined") {
+        const saved = localStorage.getItem(LOCAL_MEALS_KEY);
+        return saved ? JSON.parse(saved) : [];
+      }
+      return [];
+    }
   );
 
   useEffect(() => {
-    const fetchRecipes = async () => {
-      if (userIngredients.length === 0) return;
+    localStorage.setItem(LOCAL_MEALS_KEY, JSON.stringify(mealSuggestions));
+  }, [mealSuggestions]);
 
+  useEffect(() => {
+    if (userIngredients.length === 0) return;
+
+    const key = `${LOCAL_MEALS_KEY}_${userIngredients.sort().join(",")}`;
+    const cached = localStorage.getItem(key);
+
+    if (cached) {
+      setMealSuggestions(JSON.parse(cached));
+      return;
+    }
+
+    const fetchRecipes = async () => {
       try {
         const ingredientsQuery = userIngredients.join(",");
         const findUrl = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY}&ingredients=${ingredientsQuery}&number=5`;
@@ -57,6 +78,7 @@ export const MealSuggestion = ({
         );
 
         setMealSuggestions(detailedRecipes);
+        localStorage.setItem(key, JSON.stringify(detailedRecipes));
       } catch (error) {
         console.error("Error fetching meals:", error);
       }
