@@ -19,7 +19,7 @@ export const MealSuggestion = ({
 
       try {
         const ingredientsQuery = userIngredients.join(",");
-        const findUrl = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY}&ingredients=${ingredientsQuery}&number=1`;
+        const findUrl = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY}&ingredients=${ingredientsQuery}&number=5`;
 
         const findRes = await fetch(findUrl);
         const recipes = await findRes.json();
@@ -41,7 +41,8 @@ export const MealSuggestion = ({
               return {
                 id: recipe.id,
                 title: recipe.title,
-                image: `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`,
+                image: recipe.image,
+                imagehigher: `https://spoonacular.com/recipeImages/${recipe.id}-636x393.jpg`,
                 usedIngredients: recipe.usedIngredients.map(
                   (i: { name: string }) => i.name
                 ),

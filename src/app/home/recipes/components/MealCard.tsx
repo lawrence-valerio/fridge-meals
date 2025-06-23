@@ -1,19 +1,41 @@
-import { CheckCircleIcon, XCircleIcon } from "lucide-react";
+"use client";
+
+import { CheckCircleIcon, XCircleIcon, ClockIcon } from "lucide-react";
 import type { MealSuggestionType } from "./MealSuggestion.types";
+import React, { useState } from "react";
 
 export const MealCard = ({ meal }: { meal: MealSuggestionType }) => {
+  const [highResLoaded, setHighResLoaded] = useState(false);
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
-      <div className="h-48 overflow-hidden">
+      <div className="h-48 overflow-hidden relative">
+        {/* Low-res blurred image */}
         <img
           src={meal.image}
           alt={meal.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover absolute inset-0 blur-md scale-105 transition-all duration-500"
+          aria-hidden="true"
+        />
+        {/* High-res image, fades in when loaded */}
+        <img
+          src={meal.imagehigher}
+          alt={meal.title}
+          className={`w-full h-full object-cover absolute inset-0 transition-opacity duration-700 ${
+            highResLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoad={() => setHighResLoaded(true)}
         />
       </div>
       <div className="p-5">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-bold text-gray-800">{meal.title}</h3>
+          <div className="flex items-center">
+            <ClockIcon size={16} className="text-gray-500 mr-1" />
+            <span className="text-sm text-gray-500">
+              {meal.readyInMinutes} minutes
+            </span>
+          </div>
         </div>
         <p className="text-gray-600 mb-4">
           {meal.description.replace(/<[^>]+>/g, "").slice(0, 150) + "..."}
