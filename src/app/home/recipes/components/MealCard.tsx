@@ -15,10 +15,9 @@ export const MealCard = ({ meal }: { meal: MealSuggestionType }) => {
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-bold text-gray-800">{meal.title}</h3>
         </div>
-        <p
-          className="text-gray-600 mb-4"
-          dangerouslySetInnerHTML={{ __html: meal.description }}
-        />
+        <p className="text-gray-600 mb-4">
+          {meal.description.replace(/<[^>]+>/g, "").slice(0, 150) + "..."}
+        </p>
         <div>
           <h4 className="font-medium text-gray-700 mb-2">Ingredients:</h4>
           <div className="space-y-2">
