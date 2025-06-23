@@ -1,35 +1,40 @@
 import { CheckCircleIcon, XCircleIcon } from "lucide-react";
+import type { MealSuggestionType } from "./MealSuggestion.types";
 
-export const MealCard = () => {
+export const MealCard = ({ meal }: { meal: MealSuggestionType }) => {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
       <div className="h-48 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1612874742237-6526221588e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1771&q=80"
-          alt="spaghetti"
+          src={meal.image}
+          alt={meal.title}
           className="w-full h-full object-cover"
         />
       </div>
       <div className="p-5">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold text-gray-800">
-            Spaghetti Carbonara
-          </h3>
+          <h3 className="text-xl font-bold text-gray-800">{meal.title}</h3>
         </div>
-        <p className="text-gray-600 mb-4">
-          A classic Italian pasta dish with creamy egg sauce and bacon.
-        </p>
+        <p
+          className="text-gray-600 mb-4"
+          dangerouslySetInnerHTML={{ __html: meal.description }}
+        />
         <div>
           <h4 className="font-medium text-gray-700 mb-2">Ingredients:</h4>
           <div className="space-y-2">
-            <div>
+            <div className="mb-2">
               <p className="text-sm text-green-700 mb-1 flex items-center">
                 <CheckCircleIcon size={16} className="mr-1" /> You have:
               </p>
               <div className="flex flex-wrap gap-1">
-                <span className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full">
-                  pasta
-                </span>
+                {meal.usedIngredients.map((ingredient: string) => (
+                  <span
+                    key={ingredient}
+                    className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded-full"
+                  >
+                    {ingredient}
+                  </span>
+                ))}
               </div>
             </div>
             <div>
@@ -37,12 +42,20 @@ export const MealCard = () => {
                 <XCircleIcon size={16} className="mr-1" /> You need:
               </p>
               <div className="flex flex-wrap gap-1">
-                <span className="text-xs bg-red-200 text-red-800 px-2 py-1 rounded-full">
-                  eggs
-                </span>
+                {meal.missedIngredients.map((ingredient: string) => (
+                  <span
+                    key={ingredient}
+                    className="text-xs bg-red-200 text-red-800 px-2 py-1 rounded-full"
+                  >
+                    {ingredient}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
+        </div>
+        <div className="mt-4 text-sm text-gray-500">
+          Ready in {meal.readyInMinutes} minutes
         </div>
       </div>
     </div>

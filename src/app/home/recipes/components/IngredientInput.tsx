@@ -30,15 +30,14 @@ const MOCK_INGREDIENTS = [
 
 const USE_MOCK_DATA = true;
 
-export const IngredientInput = () => {
+export const IngredientInput = ({
+  userIngredients,
+  setUserIngredients,
+}: {
+  userIngredients: string[];
+  setUserIngredients: (ingredients: string[]) => void;
+}) => {
   const [inputValue, setInputValue] = useState("");
-  const [userIngredients, setUserIngredients] = useState<string[]>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("userIngredients");
-      return saved ? JSON.parse(saved) : [];
-    }
-    return [];
-  });
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
@@ -101,7 +100,7 @@ export const IngredientInput = () => {
   };
 
   return (
-    <section>
+    <section className="mb-8">
       <div className="bg-white rounded-lg shadow-md p-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           What ingredients do you have?
