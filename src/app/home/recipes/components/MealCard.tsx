@@ -9,7 +9,7 @@ export const MealCard = ({ meal }: { meal: MealSuggestionType }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
-      <div className="h-48 overflow-hidden relative">
+      <div className="h-60 overflow-hidden relative">
         {/* Low-res blurred image */}
         <img
           src={meal.image}
@@ -30,17 +30,13 @@ export const MealCard = ({ meal }: { meal: MealSuggestionType }) => {
       <div className="p-5">
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-xl font-bold text-gray-800">{meal.title}</h3>
-          <div className="flex items-center">
-            <ClockIcon size={16} className="text-gray-500 mr-1" />
-            <span className="text-sm text-gray-500">
-              {meal.readyInMinutes} minutes
-            </span>
-          </div>
         </div>
         <p className="text-gray-600 mb-4">
-          {meal.description.replace(/<[^>]+>/g, "").slice(0, 150) + "..."}
+          {typeof meal.description === "string"
+            ? meal.description.replace(/<[^>]+>/g, "").slice(0, 150) + "..."
+            : "No description available."}
         </p>
-        <div>
+        <div className="mb-2">
           <h4 className="font-medium text-gray-700 mb-2">Ingredients:</h4>
           <div className="space-y-2">
             <div className="mb-2">
@@ -75,8 +71,11 @@ export const MealCard = ({ meal }: { meal: MealSuggestionType }) => {
             </div>
           </div>
         </div>
-        <div className="mt-4 text-sm text-gray-500">
-          Ready in {meal.readyInMinutes} minutes
+        <div className="flex items-center">
+          <ClockIcon size={16} className="text-gray-500 mr-1" />
+          <span className="text-sm text-gray-500">
+            {meal.readyInMinutes} minutes
+          </span>
         </div>
       </div>
     </div>

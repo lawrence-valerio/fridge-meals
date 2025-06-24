@@ -28,7 +28,7 @@ const MOCK_INGREDIENTS = [
   "bread",
 ];
 
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 export const IngredientInput = ({
   userIngredients,
@@ -39,6 +39,7 @@ export const IngredientInput = ({
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [useMockFallback, setUseMockFallback] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("userIngredients", JSON.stringify(userIngredients));
@@ -59,7 +60,7 @@ export const IngredientInput = ({
     setInputValue(value);
 
     if (value.length > 2) {
-      if (USE_MOCK_DATA) {
+      if (USE_MOCK_DATA || useMockFallback) {
         const filteredSuggestions = MOCK_INGREDIENTS.filter((item) =>
           item.toLowerCase().includes(value.toLowerCase())
         ).filter((name) => !userIngredients.includes(name.toLowerCase()));
@@ -69,6 +70,14 @@ export const IngredientInput = ({
           const response = await fetch(
             `https://api.spoonacular.com/food/ingredients/autocomplete?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY}&query=${value}&number=5`
           );
+          if (!response.ok) {
+            if (response.status === 402 || response.status === 429) {
+              setUseMockFallback(true);
+              setSuggestions([]);
+              return;
+            }
+            throw new Error("API error");
+          }
           const data = await response.json();
 
           if (Array.isArray(data) && data.length > 0) {
@@ -82,6 +91,9 @@ export const IngredientInput = ({
         } catch (error) {
           console.error("Error fetching suggestions:", error);
           setSuggestions([]);
+          alert(
+            "There was a problem fetching suggestions. Please try again later."
+          );
         }
       }
     } else {
@@ -131,7 +143,7 @@ export const IngredientInput = ({
               type="text"
               value={inputValue}
               onChange={handleInputChange}
-              placeholder="Type an ingredient (e.g. chicken, eggs, tomatoes)"
+              placeholder="Type an ingredient (e.g. eggs, tomatoes, chicken)"
               className="flex-1 p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <button

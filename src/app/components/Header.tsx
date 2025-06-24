@@ -17,7 +17,7 @@ export const Header = () => {
           <span>Hello, {user?.name || "Guest"}</span>
           <button
             onClick={logout}
-            className="text-white opacity-90 hover:opacity-100 flex items-center gap-2"
+            className="text-white opacity-90 hover:opacity-100 flex items-center gap-2 cursor-pointer"
           >
             <LogOutIcon size={18} />
             <span className="hidden sm:inline">Logout</span>

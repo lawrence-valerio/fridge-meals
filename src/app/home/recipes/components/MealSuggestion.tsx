@@ -7,20 +7,48 @@ import type { MealSuggestionType } from "./MealSuggestion.types";
 // Helper functions for localStorage
 const LOCAL_MEALS_KEY = "mealSuggestions";
 
+const MOCK_MEALS: MealSuggestionType[] = [
+  {
+    id: 1,
+    title: "Mock Chicken Pasta",
+    image: "https://via.placeholder.com/312x231?text=Chicken+Pasta",
+    imagehigher:
+      "https://via.placeholder.com/636x393?text=Chicken+Pasta+HighRes",
+    usedIngredients: ["chicken", "pasta"],
+    missedIngredients: ["tomato sauce", "cheese"],
+    description: "A delicious mock chicken pasta meal.",
+    readyInMinutes: 30,
+  },
+  {
+    id: 2,
+    title: "Mock Veggie Stir Fry",
+    image: "https://via.placeholder.com/312x231?text=Veggie+Stir+Fry",
+    imagehigher:
+      "https://via.placeholder.com/636x393?text=Veggie+Stir+Fry+HighRes",
+    usedIngredients: ["broccoli", "carrots"],
+    missedIngredients: ["soy sauce", "tofu"],
+    description: "A tasty mock veggie stir fry.",
+    readyInMinutes: 20,
+  },
+];
+
 export const MealSuggestion = ({
   userIngredients,
 }: {
   userIngredients: string[];
 }) => {
   const [mealSuggestions, setMealSuggestions] = useState<MealSuggestionType[]>(
-    () => {
-      if (typeof window !== "undefined") {
-        const saved = localStorage.getItem(LOCAL_MEALS_KEY);
-        return saved ? JSON.parse(saved) : [];
-      }
-      return [];
-    }
+    []
   );
+
+  const [useMockFallback, setUseMockFallback] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(LOCAL_MEALS_KEY);
+      if (saved) setMealSuggestions(JSON.parse(saved));
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(LOCAL_MEALS_KEY, JSON.stringify(mealSuggestions));
@@ -38,11 +66,24 @@ export const MealSuggestion = ({
     }
 
     const fetchRecipes = async () => {
+      if (useMockFallback) {
+        setMealSuggestions(MOCK_MEALS);
+        return;
+      }
       try {
         const ingredientsQuery = userIngredients.join(",");
         const findUrl = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY}&ingredients=${ingredientsQuery}&number=5`;
 
         const findRes = await fetch(findUrl);
+        if (!findRes.ok) {
+          if (findRes.status === 402 || findRes.status === 429) {
+            setUseMockFallback(true);
+            setMealSuggestions(MOCK_MEALS);
+            alert("API limit reached. Switching to mock meal suggestions.");
+            return;
+          }
+          throw new Error("API error");
+        }
         const recipes = await findRes.json();
 
         const detailedRecipes = await Promise.all(
@@ -57,6 +98,14 @@ export const MealSuggestion = ({
               const detailRes = await fetch(
                 `https://api.spoonacular.com/recipes/${recipe.id}/information?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_KEY}`
               );
+              if (!detailRes.ok) {
+                if (detailRes.status === 402 || detailRes.status === 429) {
+                  setUseMockFallback(true);
+                  setMealSuggestions(MOCK_MEALS);
+                  throw new Error("API limit reached");
+                }
+                throw new Error("API error");
+              }
               const detail = await detailRes.json();
 
               return {
@@ -81,11 +130,16 @@ export const MealSuggestion = ({
         localStorage.setItem(key, JSON.stringify(detailedRecipes));
       } catch (error) {
         console.error("Error fetching meals:", error);
+        if (!useMockFallback) {
+          alert(
+            "There was a problem fetching meal suggestions. Please try again later."
+          );
+        }
       }
     };
 
     fetchRecipes();
-  }, [userIngredients]);
+  }, [userIngredients, useMockFallback]);
 
   return (
     <section>

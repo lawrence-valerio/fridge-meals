@@ -2,16 +2,15 @@
 
 import { IngredientInput } from "./components/IngredientInput";
 import { MealSuggestion } from "./components/MealSuggestion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Recipes() {
-  const [userIngredients, setUserIngredients] = useState<string[]>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("userIngredients");
-      return saved ? JSON.parse(saved) : [];
-    }
-    return [];
-  });
+  const [userIngredients, setUserIngredients] = useState<string[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("userIngredients");
+    if (saved) setUserIngredients(JSON.parse(saved));
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8 ">
