@@ -9,7 +9,7 @@ export default function HomepageLayout({
   return (
     <main>
       <Header />
-      <Navigation />
+      {/* <Navigation /> */}
       {children}
     </main>
   );
