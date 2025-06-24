@@ -4,11 +4,20 @@ import { CheckCircleIcon, XCircleIcon, ClockIcon } from "lucide-react";
 import type { MealSuggestionType } from "./MealSuggestion.types";
 import React, { useState } from "react";
 
-export const MealCard = ({ meal }: { meal: MealSuggestionType }) => {
+export const MealCard = ({
+  meal,
+  onClick,
+}: {
+  meal: MealSuggestionType;
+  onClick?: () => void;
+}) => {
   const [highResLoaded, setHighResLoaded] = useState(false);
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02]">
+    <div
+      className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer"
+      onClick={onClick}
+    >
       <div className="h-60 overflow-hidden relative">
         {/* Low-res blurred image */}
         <img

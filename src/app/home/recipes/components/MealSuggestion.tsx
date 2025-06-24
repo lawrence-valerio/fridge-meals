@@ -3,6 +3,7 @@
 import { MealCard } from "./MealCard";
 import { useEffect, useState } from "react";
 import type { MealSuggestionType } from "./MealSuggestion.types";
+import { RecipeModal } from "./RecipeModal";
 
 // Helper functions for localStorage
 const LOCAL_MEALS_KEY = "mealSuggestions";
@@ -42,6 +43,11 @@ export const MealSuggestion = ({
   );
 
   const [useMockFallback, setUseMockFallback] = useState(false);
+
+  const [selectedMeal, setSelectedMeal] = useState<MealSuggestionType | null>(
+    null
+  );
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -148,9 +154,19 @@ export const MealSuggestion = ({
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg-grid-cols-3 gap-6">
         {mealSuggestions.map((meal) => (
-          <MealCard key={meal.id} meal={meal} />
+          <MealCard
+            key={meal.id}
+            meal={meal}
+            onClick={() => {
+              setSelectedMeal(meal);
+              setShowModal(true);
+            }}
+          />
         ))}
       </div>
+      {showModal && selectedMeal && (
+        <RecipeModal meal={selectedMeal} onClose={() => setShowModal(false)} />
+      )}
     </section>
   );
 };
