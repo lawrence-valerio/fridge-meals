@@ -114,6 +114,28 @@ export const MealSuggestion = ({
               }
               const detail = await detailRes.json();
 
+              // Only include recipes with non-empty analyzedInstructions
+              if (
+                !detail.analyzedInstructions ||
+                !Array.isArray(detail.analyzedInstructions) ||
+                detail.analyzedInstructions.length === 0 ||
+                !detail.analyzedInstructions[0].steps ||
+                detail.analyzedInstructions[0].steps.length === 0
+              ) {
+                return null;
+              }
+
+              let instructions = detail.instructions;
+              if (
+                (!instructions || instructions.trim() === "") &&
+                detail.analyzedInstructions &&
+                detail.analyzedInstructions.length > 0
+              ) {
+                instructions = detail.analyzedInstructions[0].steps
+                  .map((step: { step: string }) => step.step)
+                  .join("<br/>");
+              }
+
               return {
                 id: recipe.id,
                 title: recipe.title,
@@ -127,13 +149,18 @@ export const MealSuggestion = ({
                 ),
                 description: detail.summary,
                 readyInMinutes: detail.readyInMinutes,
+                instructions,
               };
             }
           )
         );
 
-        setMealSuggestions(detailedRecipes);
-        localStorage.setItem(key, JSON.stringify(detailedRecipes));
+        // Filter out any nulls (recipes without analyzedInstructions)
+        setMealSuggestions(detailedRecipes.filter(Boolean));
+        localStorage.setItem(
+          key,
+          JSON.stringify(detailedRecipes.filter(Boolean))
+        );
       } catch (error) {
         console.error("Error fetching meals:", error);
         if (!useMockFallback) {

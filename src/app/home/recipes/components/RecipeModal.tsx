@@ -17,6 +17,15 @@ export const RecipeModal = ({
           <div className="h-64 overflow-hidden">
             <h1>test modal</h1>
           </div>
+          {meal.instructions && (
+            <div className="p-4 overflow-y-auto max-h-64">
+              <h2 className="text-lg font-semibold mb-2">Instructions</h2>
+              <div
+                className="prose prose-sm"
+                dangerouslySetInnerHTML={{ __html: meal.instructions }}
+              />
+            </div>
+          )}
           <button
             onClick={onClose}
             className="absolute top-4 right-4 bg-white rounded-full p-1 shadow-md hover:bg-gray-100"

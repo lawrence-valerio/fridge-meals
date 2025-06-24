@@ -7,4 +7,5 @@ export type MealSuggestionType = {
   missedIngredients: string[];
   description: string;
   readyInMinutes: number;
+  instructions?: string;
 };
