@@ -8,4 +8,6 @@ export type MealSuggestionType = {
   description: string;
   readyInMinutes: number;
   instructions?: string;
+  fullIngredients?: string[];
+  servings?: number;
 };

@@ -19,6 +19,13 @@ const MOCK_MEALS: MealSuggestionType[] = [
     missedIngredients: ["tomato sauce", "cheese"],
     description: "A delicious mock chicken pasta meal.",
     readyInMinutes: 30,
+    servings: 4,
+    fullIngredients: [
+      "2 pieces chicken breast",
+      "200g pasta",
+      "1 cup tomato sauce",
+      "100g cheese",
+    ],
   },
   {
     id: 2,
@@ -30,6 +37,13 @@ const MOCK_MEALS: MealSuggestionType[] = [
     missedIngredients: ["soy sauce", "tofu"],
     description: "A tasty mock veggie stir fry.",
     readyInMinutes: 20,
+    servings: 2,
+    fullIngredients: [
+      "1 head broccoli",
+      "2 pieces carrots",
+      "2 tbsp soy sauce",
+      "200g tofu",
+    ],
   },
 ];
 
@@ -150,6 +164,12 @@ export const MealSuggestion = ({
                 description: detail.summary,
                 readyInMinutes: detail.readyInMinutes,
                 instructions,
+                fullIngredients:
+                  detail.extendedIngredients?.map(
+                    (ingredient: { id: number; original: string }) =>
+                      ingredient.original
+                  ) || [],
+                servings: detail.servings,
               };
             }
           )
