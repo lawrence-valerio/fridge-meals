@@ -40,7 +40,7 @@ export const RecipeModal = ({
           <div className="flex flex-wrap gap-4 mb-6">
             <div className="flex items-center text-gray-600">
               <ClockIcon size={20} className="mr-2" />
-              {meal.readyInMinutes}
+              {meal.readyInMinutes} minutes
             </div>
             <div className="flex items-center text-gray-600">
               <UsersIcon size={20} className="mr-2" />
