@@ -15,7 +15,7 @@ export const MealCard = ({
 
   return (
     <div
-      className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-[1.02] cursor-pointer"
+      className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 group"
       onClick={onClick}
     >
       <div className="h-60 overflow-hidden relative">

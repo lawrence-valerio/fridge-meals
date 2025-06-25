@@ -113,8 +113,8 @@ export const IngredientInput = ({
 
   return (
     <section className="mb-8">
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+      <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl border border-white/50 p-10 mb-12">
+        <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
           What ingredients do you have?
         </h2>
 
@@ -123,12 +123,12 @@ export const IngredientInput = ({
           {userIngredients.map((ingredient) => (
             <div
               key={ingredient}
-              className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full flex items-center hover:bg-indigo-200 transition-colors duration-150"
+              className="bg-indigo-100 text-rose-800 px-3 py-1 rounded-full flex items-center hover:bg-rose-200 transition-colors duration-150"
             >
               <span>{ingredient}</span>
               <button
                 onClick={() => removeIngredient(ingredient)}
-                className="ml-2 text-indigo-600 hover:text-indigo-800 cursor-pointer"
+                className="ml-2 text-rose-600 hover:text-rose-800 cursor-pointer"
               >
                 <XIcon size={16} />
               </button>
@@ -148,7 +148,7 @@ export const IngredientInput = ({
             />
             <button
               onClick={handleAddIngredient}
-              className="bg-indigo-600 text-white p-3 rounded-r-lg hover:bg-indigo-700 flex items-center"
+              className="bg-rose-400 text-white p-3 rounded-r-lg hover:bg-rose-500 flex items-center"
             >
               <PlusCircleIcon size={20} className="mr-1" /> Add
             </button>

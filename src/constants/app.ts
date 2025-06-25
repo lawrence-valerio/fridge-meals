@@ -1,1 +1,1 @@
-export const APP_NAME = "QuickBite";
+export const APP_NAME = "FridgeMeals";

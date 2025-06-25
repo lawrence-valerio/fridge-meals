@@ -25,7 +25,7 @@ export const RecipeModal = ({
             onClick={onClose}
             className="absolute top-4 right-4 bg-white rounded-full p-1 shadow-md hover:bg-gray-100"
           >
-            <XIcon size={24} className="text-gray-700 cursor-pointer" />
+            <XIcon size={24} className="text-rose-500 cursor-pointer" />
           </button>
         </div>
         <div className="p-6 overflow-y-auto">
@@ -59,7 +59,7 @@ export const RecipeModal = ({
                           key={index}
                           className="flex items-center text-gray-700"
                         >
-                          <span className="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>
+                          <span className="w-2 h-2 bg-rose-500 rounded-full mr-2"></span>
                           {ingredient}
                         </li>
                       ))}

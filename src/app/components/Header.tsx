@@ -1,28 +1,25 @@
 "use client";
 
-import { LogOutIcon, UtensilsIcon } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 import { APP_NAME } from "../../constants/app";
-import { useAuth } from "../contexts/AuthContext";
 
 export const Header = () => {
-  const { logout, user } = useAuth();
   return (
-    <header className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <UtensilsIcon className="h-8 w-8 mr-3" />
-          <h1 className="text-2xl md:text-3xl font-bold">{APP_NAME}</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <span>Hello, {user?.name || "Guest"}</span>
-          <button
-            onClick={logout}
-            className="text-white opacity-90 hover:opacity-100 flex items-center gap-2 cursor-pointer"
-          >
-            <LogOutIcon size={18} />
-            <span className="hidden sm:inline">Logout</span>
-          </button>
-        </div>
+    <header className="bg-gradient-to-r from-rose-400 via-pink-400 to-orange-300 text-white relative overflow-hidden">
+      <div className="container mx-auto px-6 py-10 relative flex items-center justify-center">
+        <Link
+          href="/overview/home"
+          className="flex items-center cursor-pointer hover:opacity-90 transition-opacity relative z-10"
+        >
+          <Image
+            src="/fridge.png"
+            alt="FridgeMeals Logo"
+            width={60}
+            height={60}
+          />
+          <h1 className="text-5xl font-bold tracking-tight">{APP_NAME}</h1>
+        </Link>
       </div>
     </header>
   );

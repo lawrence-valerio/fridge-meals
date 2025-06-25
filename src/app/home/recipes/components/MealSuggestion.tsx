@@ -210,21 +210,33 @@ export const MealSuggestion = ({
 
   return (
     <section>
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+      <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">
         Meal Suggestions
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-        {mealSuggestions.map((meal) => (
-          <MealCard
-            key={meal.id}
-            meal={meal}
-            onClick={() => {
-              setSelectedMeal(meal);
-              setShowModal(true);
-            }}
-          />
-        ))}
-      </div>
+      {userIngredients.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-600 text-lg mb-4">
+            No ingredients added yet. Add some ingredients to see meal
+            suggestions!
+          </p>
+          <p className="text-gray-500">
+            Use the ingredient input above to add what you have in your fridge.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+          {mealSuggestions.map((meal) => (
+            <MealCard
+              key={meal.id}
+              meal={meal}
+              onClick={() => {
+                setSelectedMeal(meal);
+                setShowModal(true);
+              }}
+            />
+          ))}
+        </div>
+      )}
       {showModal && selectedMeal && (
         <RecipeModal meal={selectedMeal} onClose={() => setShowModal(false)} />
       )}
