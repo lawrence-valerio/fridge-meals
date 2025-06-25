@@ -2,12 +2,21 @@
 
 import { UtensilsIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import LoginForm from "./components/LoginForm";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
+import { APP_NAME } from "@/constants/app";
 
 export default function LoginPage() {
   const { login, isAuthenticated } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/home/recipes");
+    }
+  }, [isAuthenticated, router]);
+
   const handleLogin = async (username: string, password: string) => {
     try {
       await login(username, password);
@@ -15,10 +24,6 @@ export default function LoginPage() {
       console.error("Login failed:", error);
     }
   };
-
-  if (isAuthenticated) {
-    return router.push("/recipe");
-  }
 
   return (
     <div>
@@ -30,7 +35,7 @@ export default function LoginPage() {
               <div className="inline-block p-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full show-lg">
                 <UtensilsIcon className="h-12 w-12 text-white" />
               </div>
-              <h1 className="font-bold text-4xl mt-6">Quick Bite</h1>
+              <h1 className="font-bold text-4xl mt-6">{APP_NAME}</h1>
               <p className="mt-2 text-lg">
                 Turn your ingredients into delicious meals
               </p>
