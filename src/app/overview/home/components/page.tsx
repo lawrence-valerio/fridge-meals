@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { UtensilsIcon, SearchIcon, ClockIcon } from "lucide-react";
+import { SearchIcon, ClockIcon } from "lucide-react";
 import { APP_NAME } from "../../../../constants/app";
 
 export default function OverviewPage() {
