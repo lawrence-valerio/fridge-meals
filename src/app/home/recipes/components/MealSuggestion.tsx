@@ -180,8 +180,8 @@ export const MealSuggestion = ({
                 instructions,
                 fullIngredients:
                   detail.extendedIngredients?.map(
-                    (ingredient: { id: number; original: string }) =>
-                      ingredient.original
+                    (ingredient: { id: number; name: string }) =>
+                      ingredient.name
                   ) || [],
                 servings: detail.servings,
               };
