@@ -11,7 +11,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -24,7 +24,7 @@ export const AuthProvider: React.FC<{
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string) => {
     // For demo purposes, we're just using the email
     // In a real app, you would validate the password here
     setUser({

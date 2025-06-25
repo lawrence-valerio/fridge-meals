@@ -17,9 +17,9 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, router]);
 
-  const handleLogin = async (username: string, password: string) => {
+  const handleLogin = async (username: string) => {
     try {
-      await login(username, password);
+      await login(username);
     } catch (error) {
       console.error("Login failed:", error);
     }
