@@ -123,12 +123,12 @@ export const IngredientInput = ({
           {userIngredients.map((ingredient) => (
             <div
               key={ingredient}
-              className="bg-indigo-100 text-rose-800 px-3 py-1 rounded-full flex items-center hover:bg-rose-200 transition-colors duration-150"
+              className="bg-indigo-100 text-green-500 px-3 py-1 rounded-full flex items-center hover:bg-green-200 transition-colors duration-150 cursor-pointer"
             >
-              <span>{ingredient}</span>
+              <span className="cursor-pointer">{ingredient}</span>
               <button
                 onClick={() => removeIngredient(ingredient)}
-                className="ml-2 text-rose-600 hover:text-rose-800 cursor-pointer"
+                className="ml-2 text-green-500 cursor-pointer"
               >
                 <XIcon size={16} />
               </button>
@@ -148,7 +148,7 @@ export const IngredientInput = ({
             />
             <button
               onClick={handleAddIngredient}
-              className="bg-rose-400 text-white p-3 rounded-r-lg hover:bg-rose-500 flex items-center"
+              className="cs-bg-primary text-white p-3 rounded-r-lg hover:bg-rose-500 flex items-center cursor-pointer"
             >
               <PlusCircleIcon size={20} className="mr-1" /> Add
             </button>

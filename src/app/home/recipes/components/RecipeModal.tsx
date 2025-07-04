@@ -12,9 +12,9 @@ export const RecipeModal = ({
   if (typeof window === "undefined") return null;
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-      <div className="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-4xl max-h-[90vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-4xl max-h-[70vh] flex flex-col">
         <div className="relative">
-          <div className="h-90 overflow-hidden">
+          <div className="h-50 md:h-80 overflow-hidden">
             <img
               src={meal.imagehigher}
               alt={meal.title}
@@ -25,14 +25,14 @@ export const RecipeModal = ({
             onClick={onClose}
             className="absolute top-4 right-4 bg-white rounded-full p-1 shadow-md hover:bg-gray-100"
           >
-            <XIcon size={24} className="text-rose-500 cursor-pointer" />
+            <XIcon size={24} className="text-green-600 cursor-pointer" />
           </button>
         </div>
         <div className="p-6 overflow-y-auto">
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             {meal.title}
           </h2>
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-500 mb-4">
             {typeof meal.description === "string"
               ? meal.description.replace(/<[^>]+>/g, "")
               : "No description available."}
